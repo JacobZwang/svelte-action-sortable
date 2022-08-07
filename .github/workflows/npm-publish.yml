@@ -8,8 +8,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-      - run: npm install
-      - run: npm test
+      - run: npm i -g pnpm
+      - run: pnpm install
+      - run: pnpm run package
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
+          package: ./package/package.json
