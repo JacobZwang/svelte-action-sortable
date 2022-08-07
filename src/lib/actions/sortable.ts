@@ -2,19 +2,7 @@ import { browser } from '$app/env';
 import { get } from 'svelte/store';
 import type { Writable } from 'svelte/store';
 
-// const css = String.raw;
-
-// function createId() {
-// 	const ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
-// 	let rtn = '';
-// 	for (let i = 0; i < 5; i++) {
-// 		rtn += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
-// 	}
-// 	return rtn;
-// }
-
 export default function createSortable<T>(list: Writable<T[]>) {
-	// const id = createId();
 	let itemMoving: T | undefined;
 	let itemOver: T | undefined;
 	let separator: HTMLHRElement;
@@ -22,33 +10,12 @@ export default function createSortable<T>(list: Writable<T[]>) {
 	const nodes: Map<T, HTMLElement> = new Map();
 
 	function clearSeparator() {
-		// nodes.forEach((node) => {
-		// 	node.classList.remove(id, 'action-sortable-separator');
-		// });
-
 		if (document.body.contains(separator)) document.body.removeChild(separator);
 	}
 
 	if (browser) {
 		document.head.appendChild(document.createElement('style'));
-
 		separator = document.createElement('hr');
-
-		// const separatorStyle = css`
-		// 	.${id}.action-sortable-separator::before {
-		// 		background-color: #0000ff;
-		// 		content: ' ';
-		// 		width: 100%;
-		// 		height: 2pt;
-		// 		display: block;
-		// 		position: absolute;
-		// 		transform: translateY(-100%);
-		// 	}
-		// `
-		// 	.replaceAll('\n', ' ')
-		// 	.replaceAll(' ', '');
-
-		// document.styleSheets[0].insertRule(separatorStyle);
 	}
 
 	return [
@@ -101,14 +68,11 @@ export default function createSortable<T>(list: Writable<T[]>) {
 					separator.style.width = `${rectAbove.width}px`;
 					separator.style.left = `${rectAbove.left}px`;
 					document.body.appendChild(separator);
-
-					// node.classList.add(id, 'action-sortable-separator');
 				}
 			});
 
 			return {
 				destroy() {
-					// nodes.splice(nodes.indexOf(node), 1);
 					nodes.delete(item);
 				}
 			};
