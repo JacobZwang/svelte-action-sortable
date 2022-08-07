@@ -1,38 +1,24 @@
-# create-svelte
+# svelte-action-sortable
+Minimal Svelte action to add drag and drop sorting to a list.
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+```svelte
+<script lang="ts">
+	import { writable } from 'svelte/store';
+	import { flip } from 'svelte/animate';
+	import createSortable from '$lib/actions/sortable';
 
-## Creating a project
+	const list = writable(['a', 'b', 'c', 'd', 'e', 'f', 'g']);
+	const [sortable, target] = createSortable(list);
+</script>
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+<div use:sortable>
+	{#each $list as item (item)}
+		<div animate:flip use:target={item}>
+			{item}
+		</div>
+	{/each}
+</div>
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+## Why?
+Existing libraries such as [svelte-sortable-list](https://github.com/brunomolteni/) use extra dom nodes and require resturcturing your markup. svelte-action-sortable only uses 1 single dom node to indicate where the item will be moved to and does not require you to change your markup at all.
