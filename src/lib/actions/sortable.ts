@@ -29,9 +29,13 @@ export default function createSortable<T>(list: Writable<T[]>) {
 				clearSeparator();
 				if (!itemMoving) return;
 				list.update((list) => {
-					const fromIndex = list.indexOf(itemMoving);
+					const fromIndex = list.indexOf(itemMoving as T);
 					list.splice(fromIndex, 1);
-					list.splice(itemMoving !== itemOver ? list.indexOf(itemOver) : fromIndex, 0, itemMoving);
+					list.splice(
+						itemMoving !== itemOver ? list.indexOf(itemOver as T) : fromIndex,
+						0,
+						itemMoving as T
+					);
 					return list;
 				});
 				itemMoving = undefined;
@@ -45,7 +49,6 @@ export default function createSortable<T>(list: Writable<T[]>) {
 
 			node.addEventListener('mouseover', () => {
 				itemOver = item;
-
 				clearSeparator();
 
 				if (itemMoving) {
@@ -65,8 +68,8 @@ export default function createSortable<T>(list: Writable<T[]>) {
 					separator.style.boxSizing = 'border-box';
 					separator.style.top = `${rectAbove.bottom + (rectBelow.top - rectAbove.bottom) / 2}px`;
 					separator.style.transform = 'translateY(-50%)';
-					separator.style.width = `${rectAbove.width}px`;
-					separator.style.left = `${rectAbove.left}px`;
+					separator.style.width = `${rectBelow.width}px`;
+					separator.style.left = `${rectBelow.left}px`;
 					document.body.appendChild(separator);
 				}
 			});
